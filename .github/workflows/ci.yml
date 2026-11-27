@@ -10,5 +10,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python -m unittest discover -v
+      - run: pip install -r requirements-dev.txt
+      - run: python -m pytest -q
       - run: docker build -t deploylab:ci .
+      - run: docker run -d --name deploylab -p 127.0.0.1:8080:8080 deploylab:ci
+      - run: python scripts/smoke.py
+      - if: always()
+        run: docker rm -f deploylab || true

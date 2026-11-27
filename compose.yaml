@@ -1,0 +1,13 @@
+services:
+  app:
+    build: .
+    ports: ["127.0.0.1:8080:8080"]
+    read_only: true
+    security_opt: ["no-new-privileges:true"]
+    environment:
+      APP_ENV: local
+  prometheus:
+    image: prom/prometheus:v3.3.0
+    volumes:
+      - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports: ["127.0.0.1:9090:9090"]

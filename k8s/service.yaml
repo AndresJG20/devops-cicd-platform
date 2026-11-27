@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: deploylab
+spec:
+  selector:
+    app: deploylab
+  ports:
+    - port: 8080
+      targetPort: 8080

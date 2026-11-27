@@ -1,14 +1,17 @@
-# DeployLab — CI/CD Platform Demo
-Servicio HTTP de ejemplo con endpoint de salud, pruebas, contenedor sin privilegios y pipeline CI. No es un sistema productivo de despliegue.
+# DeployLab — Platform Engineering
+![CI](https://github.com/AndresJG20/devops-cicd-platform/actions/workflows/ci.yml/badge.svg)
 
-```bash
-python -m unittest discover -v
-python service.py
-```
-Abrir http://localhost:8080/health.
+A containerized reference service with request correlation, bounded-cardinality metrics, readiness/liveness endpoints, non-root execution, Prometheus configuration, local Kubernetes manifests and CI smoke checks.
 
+## Local demo
 ```bash
-docker build -t deploylab .
-docker run --rm -p 127.0.0.1:8080:8080 deploylab
+docker compose up --build
+python scripts/smoke.py
 ```
-GitHub Actions ejecuta pruebas y construye la imagen. No se configura un destino de despliegue remoto ni credenciales.
+API: http://localhost:8080/docs. Prometheus: http://localhost:9090.
+
+## Development
+pip install -r requirements-dev.txt; python -m pytest -q.
+
+## Delivery
+CI tests, builds and launches the container for HTTP smoke checks. Kubernetes manifests enable a local deployment; continuous deployment to a remote environment is not configured. See [runbook](docs/runbook.md) for deployment, monitoring and rollback.
