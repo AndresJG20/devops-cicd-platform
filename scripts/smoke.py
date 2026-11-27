@@ -10,7 +10,10 @@ for attempt in range(30):
             assert json.load(response)["status"]=="ok"
         with urllib.request.urlopen(base+"/ready",timeout=2) as response:
             assert json.load(response)["status"]=="ready"
-        print("Comprobaciones de salud y disponibilidad correctas")
+        with urllib.request.urlopen(base+"/metrics", timeout=2) as response:
+            assert response.status == 200
+            assert "http_requests_total" in response.read().decode("utf-8")
+        print("Comprobaciones de salud, disponibilidad y métricas correctas")
         break
     except Exception:
         if attempt==29:

@@ -17,6 +17,16 @@ sum(rate(http_requests_total[5m])) by (status)
 
 La consulta agrupa la tasa de solicitudes por código HTTP. Las métricas se mantienen en memoria por proceso; para un despliegue de varias réplicas se necesita recolectar las métricas de cada una.
 
+Para observar el tiempo medio de respuesta por ruta (en segundos):
+
+```promql
+sum(rate(http_request_duration_seconds_sum[5m])) by (route)
+/
+sum(rate(http_request_duration_seconds_count[5m])) by (route)
+```
+
+Se requiere tráfico reciente para calcular el promedio. Las comprobaciones del contenedor también consultan el endpoint de métricas.
+
 ## Kubernetes local
 
 Con Docker, kubectl y un clúster local kind disponibles, se puede intentar el siguiente recorrido:

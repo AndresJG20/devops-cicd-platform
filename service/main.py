@@ -42,7 +42,7 @@ def create_app():
 
     @app.get("/metrics",response_class=PlainTextResponse)
     def metrics_endpoint():
-        return metrics.render()
+        return PlainTextResponse(metrics.render(), media_type="text/plain; version=0.0.4")
     return app
 
 app = create_app()
